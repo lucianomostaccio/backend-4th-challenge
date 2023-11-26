@@ -1,8 +1,1 @@
-import {fileURLToPath} from 'url';
-import { dirname } from 'path';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-export default __dirname;
-
-//solo válido si se trabaja con type:module
+//solo necesario con type:module
