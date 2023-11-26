@@ -1,5 +1,5 @@
 import express from "express";
-import CartManager from "../CartManager.js";
+import CartManager from "../managers/CartManager.js";
 const router = express.Router();
 
 const cartManager = new CartManager();
@@ -53,6 +53,5 @@ router.post("/:cid/product/:pid", async (req, res) => {
     res.status(500).json({ error: "Error interno del servidor" });
   }
 });
-
 
 export default router;
