@@ -124,16 +124,5 @@
     "stock": 40,
     "category": "categoría 3",
     "thumbnails": ["images/imagen1deprod10.jpg", "images/otraimagen10.jpg"]
-  },
-  {
-    "id": 11,
-    "title": "Nuevo título 11 modificado con put",
-    "description": "Nueva descripción",
-    "code": "PROD011",
-    "price": 5000,
-    "status": true,
-    "stock": 50,
-    "category": "Nueva categoría",
-    "thumbnails": ["images/nueva_imagen1.jpg", "images/nueva_imagen2.jpg"]
   }
 ]
