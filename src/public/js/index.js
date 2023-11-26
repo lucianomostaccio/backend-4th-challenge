@@ -18,11 +18,10 @@ const newProductForm = document.getElementById("newProductForm");
 newProductForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  // Obtener datos del formulario (puedes adaptar esto según tu formulario)
+  // Obtener datos del formulario
   const formData = new FormData(newProductForm);
   const title = formData.get("title");
   const description = formData.get("description");
-  // ...
 
   // Emitir el evento al servidor para agregar un nuevo producto
   socket.emit("newProduct", { title, description, /* otros campos */ });
