@@ -1,7 +1,7 @@
-import fs from "fs";
-import path from "path";
-import __dirname from "../utils.js";
-const filePath = path.join(__dirname, "../products.json");
+const fs = require("fs");
+const path = require("path");
+
+const filePath = path.join(__dirname, "../../products.json");
 
 class ProductManager {
   constructor() {
@@ -121,4 +121,4 @@ class ProductManager {
   }
 }
 
-export default ProductManager;
+module.exports = ProductManager;

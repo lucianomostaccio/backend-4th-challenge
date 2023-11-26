@@ -1,11 +1,14 @@
-import __dirname from "./utils.js";
-import handlebars from "express-handlebars";
-import viewsRouter from "./routes/views.router.js";
-import { Server } from "socket.io";
-import express from "express";
-import productRouter from "../src/routes/productRouter.js";
-import cartRouter from "../src/routes/cartRouter.js";
-import path from "path";
+const express = require("express");
+const path = require("path");
+const handlebars = require("express-handlebars");
+const {Server} = require("socket.io");
+const productRouter = require("../src/routes/productRouter.js");
+const cartRouter = require("../src/routes/cartRouter.js");
+const viewsRouter = require("./routes/views.router.js");
+
+const ProductManager = require("../src/managers/ProductManager");
+const productManager = new ProductManager();
+const allProducts = productManager.getProducts();
 
 const app = express();
 const port = 8080;
@@ -30,13 +33,13 @@ socketServer.on("connection", (socket) => {
   socket.on("newProduct", (product) => {
     // Lógica para manejar un nuevo producto
     console.log("Nuevo producto recibido:", product);
-    socketServer.emit("updateProducts", getAllProducts());
+    socketServer.emit("updateProducts", allProducts);
   });
 
   socket.on("deleteProduct", (productId) => {
     // Lógica para manejar la eliminación de un producto
     console.log("Producto eliminado:", productId);
-    socketServer.emit("updateProducts", getAllProducts());
+    socketServer.emit("updateProducts", allProducts);
   });
 
   socket.on("disconnect", () => {
@@ -44,11 +47,6 @@ socketServer.on("connection", (socket) => {
   });
 });
 
-function getAllProducts() {
-  //completar para traer todos los products//
-}
-
-//código viejo://
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

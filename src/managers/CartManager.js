@@ -1,8 +1,7 @@
-import fs from "fs";
-import path from "path";
-import __dirname from "../utils.js";
+const fs = require("fs");
+const path = require("path");
 
-const filePath = path.join(__dirname, "../carts.json");
+const filePath = path.join(__dirname, "../../carts.json");
 
 class CartManager {
   constructor() {
@@ -95,4 +94,4 @@ class CartManager {
   }
 }
 
-export default CartManager;
+module.exports = CartManager;

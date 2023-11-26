@@ -1,5 +1,6 @@
-<div>
-    Todo listo para trabajar con websockets
-</div>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/index.js"></script>
+<h1>Lista de Productos</h1>
+<ul>
+  {{#each products}}
+    <li>{{title}}</li>
+  {{/each}}
+</ul>

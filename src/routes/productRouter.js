@@ -1,7 +1,6 @@
-import express from "express";
-import ProductManager from "../managers/ProductManager.js";
-
+const express = require("express");
 const router = express.Router();
+const ProductManager = require("../managers/ProductManager")
 const productManager = new ProductManager();
 
 // Rutas para manejo de productos
@@ -76,4 +75,4 @@ router.delete("/:pid", async (req, res) => {
   });
 });
 
-export default router;
+module.exports = router;
