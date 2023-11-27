@@ -53,10 +53,8 @@ class ProductManager {
       thumbnails,
     } = productData;
 
-    if (!title || !description || !code || !price || !stock || !category) {
-      console.error(
-        "Los campos son obligatorios: title, description, code,  price, status (es 'true' por defecto), stock, y category. El array de thumbnails es opcional."
-      );
+    if (!title && !description && !code && !price && !stock && !category) {
+      console.error("Al menos un campo es obligatorio: title, description, code, price, stock, o category.");
       return;
     }
 
@@ -77,7 +75,6 @@ class ProductManager {
     console.log("se acaba de agregar el producto en el array:", newProduct);
     this.nextId++; //autogenerar el id sumando 1
     await this.saveProductsToFile(); //ejecutar la función para escribir el nuevo producto en el json
-    console.log("Producto agregado:", newProduct);
   }
 
   //traer producto por id
