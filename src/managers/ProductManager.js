@@ -6,9 +6,9 @@ const filePath = path.join(__dirname, "../../products.json");
 class ProductManager {
   constructor() {
     this.path = filePath;
+    this.loadProductsFromFile();
     this.products = [];
     this.nextId = 1;
-    this.loadProductsFromFile();
   }
   //cargar productos desde el json
   async loadProductsFromFile() {

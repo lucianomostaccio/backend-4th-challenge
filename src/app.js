@@ -1,22 +1,23 @@
+//servidor//
+
 const express = require("express");
 const path = require("path");
 const handlebars = require("express-handlebars");
-const {Server} = require("socket.io");
+const { Server } = require("socket.io");
 const productRouter = require("../src/routes/productRouter.js");
+const ProductManager = require("../src/managers/ProductManager.js");
+const productManager = new ProductManager();
 const cartRouter = require("../src/routes/cartRouter.js");
 const viewsRouter = require("./routes/views.router.js");
 
-const ProductManager = require("../src/managers/ProductManager");
-const productManager = new ProductManager();
-const allProducts = productManager.getProducts();
-
 const app = express();
 const port = 8080;
+
 const httpServer = app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
 }); // Iniciar el servidor
 
-const socketServer = new Server(httpServer); // servidor para trabajar con sockets
+const io = new Server(httpServer); // servidor para trabajar con sockets
 
 //plantillas:
 app.engine("handlebars", handlebars.engine());
@@ -27,34 +28,41 @@ app.use(express.static(path.join(__dirname, "public")));
 // app.use(express.static(__dirname+'/public')); funciona así también, pero es más seguro usar path.join
 app.use("/", viewsRouter);
 
-socketServer.on("connection", (socket) => {
-  console.log("Nuevo cliente conectado");
+io.on("connection", (socket) => {
+  console.log(`Nuevo cliente conectado: ${socket.id}`);
   // Escucha eventos desde el cliente
-  socket.on("newProduct", (product) => {
-    // Lógica para manejar un nuevo producto
-    console.log("Nuevo producto recibido:", product);
-    socketServer.emit("updateProducts", allProducts);
+  socket.on("newProduct", async (productData) => {
+    try {
+      await productManager.addProduct(productData);
+      const allProducts = productManager.getProducts();
+      io.emit("updateProductList", allProducts);
+    } catch (error) {
+      console.error("Error al agregar producto en tiempo real:", error);
+    }
   });
 
-  socket.on("deleteProduct", (productId) => {
-    // Lógica para manejar la eliminación de un producto
-    console.log("Producto eliminado:", productId);
-    socketServer.emit("updateProducts", allProducts);
+  socket.on("deleteProduct", async (productId) => {
+    try {
+      await productManager.deleteProduct(productId);
+      const allProducts = productManager.getProducts();
+      io.emit("updateProductList", allProducts);
+    } catch (error) {
+      console.error("Error al eliminar producto en tiempo real:", error);
+    }
   });
 
   socket.on("disconnect", () => {
-    console.log("Cliente desconectado");
+    console.log(`Cliente ${socket.id} se ha desconectado`);
   });
 });
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Import rutas
+// Importar routers
 const productRoutes = productRouter;
 const cartRoutes = cartRouter;
 
-// Configurar las rutas
+// Configurar los routers
 app.use("/api/products", productRoutes);
 app.use("/api/carts", cartRoutes);

@@ -1,7 +1,6 @@
 const express = require("express");
 const ProductManager = require("../managers/ProductManager")
 const productManager = new ProductManager();
-
 const router = express.Router();
 
 router.get('/', async (req, res) => {

@@ -1,18 +1,22 @@
+<!-- views/realTimeProducts.handlebars -->
 <h1>Productos en tiempo real</h1>
 
 <h1>Lista de Productos</h1>
-<ul>
+<ul class="productListRealTime">
   {{#each products}}
-    <li>{{title}}</li>
+    <li class="productTitle">
+      {{title}}
+      <button
+        class="deleteProductBtn"
+        type="button"
+        onclick="eliminarProducto({{id}})"
+      >Eliminar</button>
+    </li>
   {{/each}}
 </ul>
 
 <form id="newProductForm">
-    <label for="title">Título:</label>
-    <input type="text" id="title" name="title" required>
-
-    {{!-- <label for="description">Descripción:</label>
-    <textarea id="description" name="description" required></textarea> --}}
-
-    <button type="submit">Agregar Producto</button>
+  <label for="title">Título:</label>
+  <input type="text" id="title" name="title" required />
+  <button type="button" onclick="agregarProducto()">Agregar Producto</button>
 </form>

@@ -1,34 +1,30 @@
 const socket = io();
 
-// Manejar el evento para actualizar la lista de productos en tiempo real
-socket.on("updateProducts", async (products) => {
-  try {
-    // Actualizar la lista de productos en la vista
-    const productList = document.getElementById("productList");
-    productList.innerHTML = ""; // Limpiar la lista antes de actualizar
-
-    await products.forEach((product) => {
-      const li = document.createElement("li");
-      li.textContent = product.title;
-      productList.appendChild(li);
-    });
-  } catch (error) {
-    console.error("Error al actualizar la lista de productos en tiempo real:", error);
-  }
-});
-
-// Escuchar el evento del formulario para agregar un nuevo producto
-const newProductForm = document.getElementById("newProductForm");
-newProductForm.addEventListener("submit", async (event) => {
-  try {
-    event.preventDefault();
-
-    // Obtener datos del formulario
-    const formData = new FormData(newProductForm);
-    const title = formData.get("title");
+function agregarProducto() {
+  // @ts-ignore
+  const title = document.querySelector("#title").value;
+  if (!title) {
+    alert("Por favor, completa todos los campos");
+  } else {
     // Emitir el evento al servidor para agregar un nuevo producto
-    socket.emit("newProduct", { title, /* otros campos */ });
-  } catch (error) {
-    console.error("Error al manejar el evento del formulario:", error);
+    socket.emit("newProduct", { title });
   }
+}
+
+function eliminarProducto(id) {
+  // Emitir el evento al servidor para eliminar el producto
+  socket.emit("deleteProduct", id);
+}
+
+socket.on("updateProductList", (updatedProducts) => {
+  // Actualizar la lista de productos en la vista
+  const productListRealTime = document.querySelector(".productListRealTime");
+  // @ts-ignore
+  productListRealTime.innerHTML = "";
+  updatedProducts.forEach((product) => {
+    const li = document.createElement("li");
+    li.textContent = product.title;
+    // @ts-ignore
+    productListRealTime.appendChild(li);
+  });
 });
