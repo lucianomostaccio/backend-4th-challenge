@@ -1,8 +1,7 @@
-// @ts-ignore
+// @ts-nocheck
 const socket = io();
 
 function agregarProducto() {
-  // @ts-ignore
   const title = document.querySelector("#title").value;
   if (!title) {
     alert("Por favor, completa todos los campos");
