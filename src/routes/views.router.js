@@ -1,25 +1,31 @@
 const express = require("express");
-const ProductManager = require("../managers/ProductManager")
+const ProductManager = require("../managers/ProductManager");
 const productManager = new ProductManager();
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const products = await productManager.getProducts();
-    res.render('home', { products });
+    res.render("home", {
+      products,
+      style: "home.css", //specific style file for this page
+    });
   } catch (error) {
-    console.error("Error al obtener productos:", error);
-    res.status(500).send("Error interno del servidor");
+    console.error("Error getting the products:", error);
+    res.status(500).send("Internal server error");
   }
 });
 
-router.get('/realtimeproducts', async (req, res) => {
+router.get("/realtimeproducts", async (req, res) => {
   try {
     const products = await productManager.getProducts();
-    res.render('realTimeProducts', { products });
+    res.render("realTimeProducts", {
+      products,
+      style: "realTimeProducts.css", //specific style file for this page
+    });
   } catch (error) {
-    console.error("Error al renderizar la vista en tiempo real:", error);
-    res.status(500).send("Error interno del servidor");
+    console.error("Error rendering products in real time:", error);
+    res.status(500).send("Internal server error");
   }
 });
 
