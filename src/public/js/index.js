@@ -4,27 +4,25 @@ const socket = io();
 function agregarProducto() {
   const title = document.querySelector("#title").value;
   if (!title) {
-    alert("Por favor, completa todos los campos");
+    alert("Please, fill in all fields");
   } else {
-    // Emitir el evento al servidor para agregar un nuevo producto
+    // emit *add new product* to server
     socket.emit("newProduct", { title });
   }
 }
 
 function eliminarProducto(id) {
-  // Emitir el evento al servidor para eliminar el producto
+  // emit *delete product* to server
   socket.emit("deleteProduct", id);
 }
 
 socket.on("updateProductList", (updatedProducts) => {
-  // Actualizar la lista de productos en la vista
+  // Update products list in Real Time Products view
   const productListRealTime = document.querySelector(".productListRealTime");
-  // @ts-ignore
   productListRealTime.innerHTML = "";
   updatedProducts.forEach((product) => {
     const li = document.createElement("li");
     li.textContent = product.title;
-    // @ts-ignore
     productListRealTime.appendChild(li);
   });
 });
